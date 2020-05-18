@@ -1,5 +1,6 @@
 package com.example.finalanxiety.ui.timeline;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,10 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.finalanxiety.MainActivity;
 import com.example.finalanxiety.R;
+import com.example.finalanxiety.database.CardsDatabase;
+import com.example.finalanxiety.database.TimelineCard;
+
+import java.util.List;
 
 public class TimelineFragment extends Fragment {
 
@@ -29,6 +34,13 @@ public class TimelineFragment extends Fragment {
         String document_location = (String) MainActivity.myBundle.get("location");
         String document_severity = (String) MainActivity.myBundle.get("severity");
         String document_comments = (String) MainActivity.myBundle.get("comments");
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<TimelineCard> all_cards = CardsDatabase.getInstance(getContext()).cardAccess().getAll();
+            }
+        });
 
         TextView card_timestamp = root.findViewById(R.id.card_timestamp);
 

@@ -1,27 +1,32 @@
 package com.example.finalanxiety.ui.document_mood;
 
-import com.example.finalanxiety.MainActivity;
-import com.example.finalanxiety.TrackLocation;
+import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.location.Geocoder;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.finalanxiety.MainActivity;
 import com.example.finalanxiety.R;
+import com.example.finalanxiety.database.CardAccess;
+import com.example.finalanxiety.database.CardsDatabase;
+import com.example.finalanxiety.database.TimelineCard;
+
+import java.lang.ref.WeakReference;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class DocumentMoodFragment extends Fragment {
 
@@ -33,6 +38,7 @@ public class DocumentMoodFragment extends Fragment {
                 ViewModelProviders.of(this).get(DocumentMoodViewModel.class);
         View root = inflater.inflate(R.layout.fragment_document_mood, container, false);
         final TextView textView = root.findViewById(R.id.document_intro);
+        final CardsDatabase db = CardsDatabase.getInstance(getActivity());
 
 
         final TextView date = root.findViewById(R.id.date_document);
@@ -56,10 +62,23 @@ public class DocumentMoodFragment extends Fragment {
                     public void onClick(View view)
                     {
                         System.out.println("Grabbing documented information...");
-                        MainActivity.myBundle.putString("date", date_entry.getText().toString());
-                        MainActivity.myBundle.putString("location", location_entry.getText().toString());
-                        MainActivity.myBundle.putString("severity", severity_entry.getText().toString());
-                        MainActivity.myBundle.putString("comments", comments_entry.getText().toString());
+                        final String dat = date_entry.getText().toString();
+                        final String loc = location_entry.getText().toString();
+                        final String sev = severity_entry.getText().toString();
+                        final String com = comments_entry.getText().toString();
+
+
+                        MainActivity.myBundle.putString("date", dat);
+                        MainActivity.myBundle.putString("location", loc);
+                        MainActivity.myBundle.putString("severity", sev);
+                        MainActivity.myBundle.putString("comments", com);
+
+                        AsyncTask.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                CardsDatabase.getInstance(getContext()).cardAccess().insert(new TimelineCard(dat,loc,sev,com));
+                            }
+                        });
 
                         date_entry.getText().clear();
                         location_entry.getText().clear();
@@ -82,6 +101,21 @@ public class DocumentMoodFragment extends Fragment {
                         String address = ((MainActivity) getActivity()).getLocationName(latitude, longitude);
                         System.out.println(address);
                         location_entry.setText(address.substring(0, address.length() -2));
+                    }
+                }
+        );
+
+        final Button time_capture = root.findViewById(R.id.time_now);
+        time_capture.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    public void onClick(View view)
+                    {
+                        Date time_now = Calendar.getInstance().getTime();
+                        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                        String formatted_time = dateFormat.format(time_now);
+                        System.out.println(formatted_time);
+                        date_entry.setText(formatted_time);
                     }
                 }
         );
