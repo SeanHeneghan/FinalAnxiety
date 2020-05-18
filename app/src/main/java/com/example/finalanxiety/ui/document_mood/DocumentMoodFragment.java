@@ -1,5 +1,7 @@
 package com.example.finalanxiety.ui.document_mood;
 
+import com.example.finalanxiety.MainActivity;
+import com.example.finalanxiety.TrackLocation;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,17 +10,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.finalanxiety.MainActivity;
 import com.example.finalanxiety.R;
-
-import org.w3c.dom.Text;
 
 public class DocumentMoodFragment extends Fragment {
 
@@ -30,6 +32,7 @@ public class DocumentMoodFragment extends Fragment {
                 ViewModelProviders.of(this).get(DocumentMoodViewModel.class);
         View root = inflater.inflate(R.layout.fragment_document_mood, container, false);
         final TextView textView = root.findViewById(R.id.document_intro);
+
 
         final TextView date = root.findViewById(R.id.date_document);
         final EditText date_entry = root.findViewById(R.id.document_date_entry);
@@ -61,6 +64,20 @@ public class DocumentMoodFragment extends Fragment {
                         location_entry.getText().clear();
                         severity_entry.getText().clear();
                         comments_entry.getText().clear();
+                    }
+                }
+        );
+
+        final Button location_capture = root.findViewById(R.id.location_capture);
+        location_capture.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    public void onClick(View view)
+                    {
+                        double latitude = ((MainActivity) getActivity()).sendLatitude();
+                        double longitude = ((MainActivity) getActivity()).sendLongitude();
+                        System.out.println(latitude);
+                        System.out.println(longitude);
                     }
                 }
         );

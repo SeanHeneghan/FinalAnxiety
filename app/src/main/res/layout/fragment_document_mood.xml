@@ -85,7 +85,7 @@
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/document_severity_entry"
-        app:layout_constraintTop_toBottomOf="@id/document_location_entry"/>
+        app:layout_constraintTop_toBottomOf="@id/location_capture"/>
     
     <EditText
         android:id="@+id/document_severity_entry"
@@ -98,7 +98,7 @@
         android:hint="@string/severity_hint"
         app:layout_constraintHorizontal_weight="5"
         app:layout_constraintStart_toEndOf="@id/document_severity"
-        app:layout_constraintTop_toBottomOf="@id/document_location_entry"
+        app:layout_constraintTop_toBottomOf="@id/location_capture"
         app:layout_constraintEnd_toEndOf="parent"/>
     
     <TextView
@@ -136,4 +136,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/document_comments_entry"/>
+
+    <Button
+        android:id="@+id/location_capture"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Use current location"
+        app:layout_constraintBottom_toTopOf="@id/document_severity_entry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/document_location_entry"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
