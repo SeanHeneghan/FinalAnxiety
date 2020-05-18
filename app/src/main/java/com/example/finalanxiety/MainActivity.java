@@ -4,6 +4,8 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -21,7 +23,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -101,6 +106,19 @@ public class MainActivity extends AppCompatActivity {
             longitude = trackLocation.getLongitude();
         }
         return longitude;
+    }
+
+    public String getLocationName(double latitude, double longitude) {
+        Geocoder geo = new Geocoder(this, Locale.getDefault());
+        String starter = "";
+        try {
+            List<Address> address_list = geo.getFromLocation(latitude,longitude,1);
+            Address address = (Address) address_list.get(0);
+            starter += address.getAddressLine(0) +", ";
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return starter;
     }
 
     @Override

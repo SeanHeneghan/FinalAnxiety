@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.location.Geocoder;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -78,6 +79,9 @@ public class DocumentMoodFragment extends Fragment {
                         double longitude = ((MainActivity) getActivity()).sendLongitude();
                         System.out.println(latitude);
                         System.out.println(longitude);
+                        String address = ((MainActivity) getActivity()).getLocationName(latitude, longitude);
+                        System.out.println(address);
+                        location_entry.setText(address.substring(0, address.length() -2));
                     }
                 }
         );
