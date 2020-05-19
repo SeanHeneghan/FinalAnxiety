@@ -22,6 +22,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -82,11 +83,10 @@ public class MainActivity extends AppCompatActivity {
         permissions.add(ACCESS_FINE_LOCATION);
         permissions.add(ACCESS_COARSE_LOCATION);
 
-        AsyncTask.execute(new Runnable() {
+        CardsDatabase.getInstance(MainActivity.this).cardAccess().getAll().observe(this, new Observer<List<TimelineCard>>() {
             @Override
-            public void run() {
-                all_cards = CardsDatabase.getInstance(MainActivity.this).cardAccess().getAll();
-                cardList(all_cards);
+            public void onChanged(List<TimelineCard> timelineCards) {
+                cardList(timelineCards);
             }
         });
 

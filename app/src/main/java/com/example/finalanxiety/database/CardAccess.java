@@ -1,5 +1,6 @@
 package com.example.finalanxiety.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -12,7 +13,7 @@ import java.util.List;
 public interface CardAccess {
 
     @Query("SELECT * FROM cards")
-    List<TimelineCard> getAll();
+    LiveData<List<TimelineCard>> getAll();
 
     @Query("DELETE FROM cards")
     void deleteAll();
