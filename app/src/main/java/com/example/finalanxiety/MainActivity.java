@@ -6,15 +6,22 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.Menu;
 
+import com.example.finalanxiety.database.CardsDatabase;
+import com.example.finalanxiety.database.TimelineCard;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -24,6 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -33,6 +41,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static List<TimelineCard> all_cards;
     private AppBarConfiguration mAppBarConfiguration;
 
     private ArrayList permissionsToRequest;
@@ -41,6 +50,27 @@ public class MainActivity extends AppCompatActivity {
 
     private final static int ALL_PERMISSIONS_RESULT = 101;
     TrackLocation trackLocation;
+
+    public static List<TimelineCard> allCards() {
+        return all_cards;
+    }
+
+    public void cardList(List<TimelineCard> all_cards) {
+        String cardInformation;
+        ArrayList<String> card_list = new ArrayList<>();
+        if (all_cards != null) {
+            for (TimelineCard card : all_cards) {
+                String card_date = card.getDate();
+                String card_location = card.getLocation();
+                String card_severity = card.getSeverity();
+                String card_comments = card.getComments();
+                cardInformation = "\n" + card_date + "\n" + card_location + "\n" + card_severity + "\n"
+                        + card_comments + "\n" + "--------------------------------------------";
+                card_list.add(cardInformation);
+                myBundle.putStringArrayList("cardList", card_list);
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +81,14 @@ public class MainActivity extends AppCompatActivity {
 
         permissions.add(ACCESS_FINE_LOCATION);
         permissions.add(ACCESS_COARSE_LOCATION);
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                all_cards = CardsDatabase.getInstance(MainActivity.this).cardAccess().getAll();
+                cardList(all_cards);
+            }
+        });
 
         permissionsToRequest = findUnAskedPermissions(permissions);
         //get the permissions we have asked for before but are not granted..

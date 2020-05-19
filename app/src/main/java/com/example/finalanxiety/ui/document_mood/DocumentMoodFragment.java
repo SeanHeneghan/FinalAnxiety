@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -21,6 +23,7 @@ import com.example.finalanxiety.R;
 import com.example.finalanxiety.database.CardAccess;
 import com.example.finalanxiety.database.CardsDatabase;
 import com.example.finalanxiety.database.TimelineCard;
+import com.example.finalanxiety.ui.timeline.TimelineFragment;
 
 import java.lang.ref.WeakReference;
 import java.text.DateFormat;
