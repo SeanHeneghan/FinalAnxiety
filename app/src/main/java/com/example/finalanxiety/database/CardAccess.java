@@ -14,6 +14,9 @@ public interface CardAccess {
     @Query("SELECT * FROM cards")
     List<TimelineCard> getAll();
 
+    @Query("DELETE FROM cards")
+    void deleteAll();
+
     @Insert
     long insert(TimelineCard timelineCard);
 

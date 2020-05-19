@@ -1,5 +1,6 @@
 package com.example.finalanxiety.ui.timeline;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,6 +29,7 @@ import java.util.List;
 public class TimelineFragment extends Fragment {
 
     private TimelineViewModel timelineViewModel;
+    int count = 0;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -34,14 +37,33 @@ public class TimelineFragment extends Fragment {
         timelineViewModel =
                 ViewModelProviders.of(this).get(TimelineViewModel.class);
         View root = inflater.inflate(R.layout.fragment_timeline, container, false);
-
-        TextView card_timestamp = root.findViewById(R.id.card_timestamp);
+        LinearLayout layout = root.findViewById(R.id.timeline_layout);
+        // TextView card_timestamp = root.findViewById(R.id.card_timestamp);
 
         ArrayList<String> card_list = MainActivity.myBundle.getStringArrayList("cardList");
-        System.out.println("FRAGMENT CARDS HERE SEAN " + card_list);
         if (card_list != null) {
-            String joined = String.join(",", card_list);
-            card_timestamp.setText(joined);
+            for (String card : card_list) {
+                count++;
+                System.out.println("NOW");
+                System.out.print(card);
+                System.out.println("-----------------------------");
+                CardView cardView = new CardView(getActivity());
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT
+                );
+                layoutParams.setMargins(0,0,0,16);
+                cardView.setLayoutParams(layoutParams);
+                cardView.setRadius(30);
+                cardView.setCardBackgroundColor(Color.LTGRAY);
+                TextView cardText = new TextView(getActivity());
+                cardText.setTextSize(20);
+                cardText.setText(card);
+                cardView.addView(cardText);
+                layout.addView(cardView);
+            }
+            //String joined = String.join(",", card_list);
+            //card_timestamp.setText(joined);
         }
 
         /* String document_timestamp = (String) MainActivity.myBundle.get("date");

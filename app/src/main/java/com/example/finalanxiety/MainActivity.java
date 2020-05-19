@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
                 String card_location = card.getLocation();
                 String card_severity = card.getSeverity();
                 String card_comments = card.getComments();
-                cardInformation = "\n" + card_date + "\n" + card_location + "\n" + card_severity + "\n"
-                        + card_comments + "\n" + "--------------------------------------------";
+                cardInformation = card_date + "\n" + card_location + "\n" + card_severity + "\n"
+                        + card_comments;
                 card_list.add(cardInformation);
                 myBundle.putStringArrayList("cardList", card_list);
             }
