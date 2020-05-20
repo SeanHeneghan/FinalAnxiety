@@ -1,5 +1,6 @@
 package com.example.finalanxiety;
 
+import android.accessibilityservice.FingerprintGestureController;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -11,19 +12,32 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 
 import com.example.finalanxiety.database.CardsDatabase;
 import com.example.finalanxiety.database.TimelineCard;
+import com.example.finalanxiety.motivation_messages.MotivationCard;
+import com.example.finalanxiety.motivation_messages.MotivationDatabase;
+import com.example.finalanxiety.ui.notification.NotificationFragment;
+import com.example.finalanxiety.ui.timeline.TimelineFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
+import androidx.navigation.NavHostController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -43,6 +57,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class MainActivity extends AppCompatActivity {
 
     private static List<TimelineCard> all_cards;
+    private static List<MotivationCard> stack;
     private AppBarConfiguration mAppBarConfiguration;
 
     private ArrayList permissionsToRequest;
@@ -51,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final static int ALL_PERMISSIONS_RESULT = 101;
     TrackLocation trackLocation;
+    private Window wind;
 
     public static List<TimelineCard> allCards() {
         return all_cards;
@@ -73,6 +89,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void getContents(List<MotivationCard> stack) {
+        ArrayList<String> contents = new ArrayList<>();
+        if (stack != null) {
+            for (MotivationCard motiv : stack) {
+                String motiv_contents = motiv.getContents();
+                contents.add(motiv_contents);
+                myBundle.putStringArrayList("contents", contents);
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +117,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        MotivationDatabase.getInstance(MainActivity.this).motivationAccess().getAllMotivation().observe(this, new Observer<List<MotivationCard>>() {
+            @Override
+            public void onChanged(List<MotivationCard> motivationCards) {
+                getContents(motivationCards);
+            }
+        });
+
         permissionsToRequest = findUnAskedPermissions(permissions);
         //get the permissions we have asked for before but are not granted..
         //we will store this in a global list to access later.
@@ -102,21 +136,12 @@ public class MainActivity extends AppCompatActivity {
                 requestPermissions((String[]) permissionsToRequest.toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
         }
 
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_timeline, R.id.nav_document_mood, R.id.nav_notifications, R.id.nav_profile)
+                R.id.nav_timeline, R.id.nav_document_mood, R.id.nav_notifications, R.id.nav_profile, R.id.create_motivation)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -235,6 +260,38 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+
+        wind = this.getWindow();
+        wind.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        wind.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        wind.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+    }
+
+    @Override
+    public boolean onKeyDown(int key, KeyEvent event) {
+        if (key == KeyEvent.KEYCODE_VOLUME_UP){
+            System.out.println("Hello1");
+            return false;
+        } else if (key == KeyEvent.KEYCODE_VOLUME_DOWN){
+            System.out.println("Hello2");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean onKeyUp(int key, KeyEvent event) {
+        if (key == KeyEvent.KEYCODE_VOLUME_UP){
+            return false;
+        } else if (key == KeyEvent.KEYCODE_VOLUME_DOWN){
+            return false;
+        }
+        return true;
     }
 
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {

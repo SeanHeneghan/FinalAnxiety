@@ -20,6 +20,7 @@
     <string name="severity_hint">0 - Low; 10 - High</string>
     <string name="document_mood_comments">Comments:</string>
     <string name="comments_hint">Enter any thoughts, feelings or a description of your mood during this event.</string>
+    <string name="notification_intro">Enter your motivational messages below to see them on your page.</string>
 
     <string name="home_second">Home Second</string>
 </resources>

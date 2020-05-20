@@ -4,16 +4,21 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.finalanxiety.MainActivity;
+import com.example.finalanxiety.motivation_messages.MotivationDatabase;
+
+import java.util.ArrayList;
+
 public class NotificationViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private MutableLiveData<ArrayList<String>> dbData;
 
     public NotificationViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+        dbData = new MutableLiveData<>();
+        dbData.setValue(MainActivity.myBundle.getStringArrayList("contents"));
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<ArrayList<String>> getDB() {
+        return dbData;
     }
 }

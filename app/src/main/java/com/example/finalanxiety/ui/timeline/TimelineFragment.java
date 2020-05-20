@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -37,46 +38,35 @@ public class TimelineFragment extends Fragment {
         timelineViewModel =
                 ViewModelProviders.of(this).get(TimelineViewModel.class);
         View root = inflater.inflate(R.layout.fragment_timeline, container, false);
-        LinearLayout layout = root.findViewById(R.id.timeline_layout);
-        // TextView card_timestamp = root.findViewById(R.id.card_timestamp);
+        final LinearLayout layout = root.findViewById(R.id.timeline_layout);
 
-        ArrayList<String> card_list = MainActivity.myBundle.getStringArrayList("cardList");
-        if (card_list != null) {
-            for (String card : card_list) {
-                count++;
-                System.out.println("NOW");
-                System.out.print(card);
-                System.out.println("-----------------------------");
-                CardView cardView = new CardView(getActivity());
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT
-                );
-                layoutParams.setMargins(0,0,0,16);
-                cardView.setLayoutParams(layoutParams);
-                cardView.setRadius(30);
-                cardView.setCardBackgroundColor(Color.LTGRAY);
-                TextView cardText = new TextView(getActivity());
-                cardText.setTextSize(20);
-                cardText.setText(card);
-                cardView.addView(cardText);
-                layout.addView(cardView);
+        timelineViewModel.getDB().observe(getViewLifecycleOwner(), new Observer<ArrayList<String>>() {
+            @Override
+            public void onChanged(ArrayList<String> card_list) {
+                if (card_list != null) {
+                    for (String card : card_list) {
+                        count++;
+                        System.out.println("NOW");
+                        System.out.print(card);
+                        System.out.println("-----------------------------");
+                        CardView cardView = new CardView(getActivity());
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.MATCH_PARENT
+                        );
+                        layoutParams.setMargins(0,0,0,16);
+                        cardView.setLayoutParams(layoutParams);
+                        cardView.setRadius(30);
+                        cardView.setCardBackgroundColor(Color.LTGRAY);
+                        TextView cardText = new TextView(getActivity());
+                        cardText.setTextSize(20);
+                        cardText.setText(card);
+                        cardView.addView(cardText);
+                        layout.addView(cardView);
+                    }
+                }
             }
-            //String joined = String.join(",", card_list);
-            //card_timestamp.setText(joined);
-        }
-
-        /* String document_timestamp = (String) MainActivity.myBundle.get("date");
-        String document_location = (String) MainActivity.myBundle.get("location");
-        String document_severity = (String) MainActivity.myBundle.get("severity");
-        String document_comments = (String) MainActivity.myBundle.get("comments");
-
-        card_timestamp.setText(document_timestamp);
-        card_timestamp.append("\n"+document_location);
-        card_timestamp.append("\n"+document_severity);
-        card_timestamp.append("\n"+document_comments); */
-
-
+        });
         return root;
     }
 }
