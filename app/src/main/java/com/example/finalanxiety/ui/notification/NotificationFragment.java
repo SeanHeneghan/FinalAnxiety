@@ -16,7 +16,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.finalanxiety.MainActivity;
 import com.example.finalanxiety.R;
+import com.example.finalanxiety.motivation_messages.MotivationDatabase;
 
 import java.util.ArrayList;
 
@@ -30,6 +32,8 @@ public class NotificationFragment extends Fragment {
                 ViewModelProviders.of(this).get(NotificationViewModel.class);
         View root = inflater.inflate(R.layout.fragment_notification, container, false);
         final LinearLayout layout = root.findViewById(R.id.notification_layout);
+        final int pastelGreen = getResources().getColor(R.color.pastelGreen);
+        final int white = getResources().getColor(R.color.white);
 
         notificationViewModel.getDB().observe(getViewLifecycleOwner(),new Observer<ArrayList<String>>() {
             @Override
@@ -44,9 +48,11 @@ public class NotificationFragment extends Fragment {
                         layoutParams.setMargins(0,0,0,16);
                         cardView.setLayoutParams(layoutParams);
                         cardView.setRadius(30);
-                        cardView.setCardBackgroundColor(Color.LTGRAY);
+                        cardView.setCardBackgroundColor(pastelGreen);
                         TextView cardText = new TextView(getActivity());
                         cardText.setTextSize(20);
+                        cardText.setTextColor(white);
+                        cardText.setPadding(8,8,8,8);
                         cardText.setGravity(Gravity.CENTER);
                         cardText.setText(contents);
                         cardView.addView(cardText);

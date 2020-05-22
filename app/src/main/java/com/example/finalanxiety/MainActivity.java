@@ -31,6 +31,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.view.WindowCallbackWrapper;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
@@ -89,6 +92,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void getSeverityGraphInformation(List<TimelineCard> cards) {
+        String severity;
+        ArrayList<String> severity_list = new ArrayList<>();
+        if (cards != null) {
+            for (TimelineCard card : cards) {
+                String card_severity = card.getSeverity();
+                severity_list.add(card_severity);
+                myBundle.putStringArrayList("severity_list", severity_list);
+            }
+        }
+    }
+
     public void getContents(List<MotivationCard> stack) {
         ArrayList<String> contents = new ArrayList<>();
         if (stack != null) {
@@ -100,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,10 +126,16 @@ public class MainActivity extends AppCompatActivity {
         permissions.add(ACCESS_FINE_LOCATION);
         permissions.add(ACCESS_COARSE_LOCATION);
 
+        Window window = this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.turquoise));
+
         CardsDatabase.getInstance(MainActivity.this).cardAccess().getAll().observe(this, new Observer<List<TimelineCard>>() {
             @Override
             public void onChanged(List<TimelineCard> timelineCards) {
                 cardList(timelineCards);
+                getSeverityGraphInformation(timelineCards);
             }
         });
 
@@ -260,17 +282,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-    }
-
-    @Override
-    protected void onResume() {
-
-        super.onResume();
-
-        wind = this.getWindow();
-        wind.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-        wind.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-        wind.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
     }
 
     @Override

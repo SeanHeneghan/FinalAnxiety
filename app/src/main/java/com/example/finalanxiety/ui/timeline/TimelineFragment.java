@@ -39,6 +39,8 @@ public class TimelineFragment extends Fragment {
                 ViewModelProviders.of(this).get(TimelineViewModel.class);
         View root = inflater.inflate(R.layout.fragment_timeline, container, false);
         final LinearLayout layout = root.findViewById(R.id.timeline_layout);
+        final int pastelGreen = getResources().getColor(R.color.pastelGreen);
+        final int white = getResources().getColor(R.color.white);
 
         timelineViewModel.getDB().observe(getViewLifecycleOwner(), new Observer<ArrayList<String>>() {
             @Override
@@ -54,12 +56,15 @@ public class TimelineFragment extends Fragment {
                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                 LinearLayout.LayoutParams.MATCH_PARENT
                         );
-                        layoutParams.setMargins(0,0,0,16);
+                        layoutParams.setMargins(0,16,0,16);
                         cardView.setLayoutParams(layoutParams);
                         cardView.setRadius(30);
-                        cardView.setCardBackgroundColor(Color.LTGRAY);
+                        cardView.setElevation(16);
+                        cardView.setCardBackgroundColor(pastelGreen);
                         TextView cardText = new TextView(getActivity());
                         cardText.setTextSize(20);
+                        cardText.setTextColor(white);
+                        cardText.setPadding(8,8,8,8);
                         cardText.setText(card);
                         cardView.addView(cardText);
                         layout.addView(cardView);
