@@ -6,22 +6,18 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_timeline"
-            android:icon="@drawable/ic_menu_camera"
             android:title="@string/menu_timeline" />
         <item
             android:id="@+id/nav_document_mood"
-            android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_document_mood" />
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_menu_share"
             android:title="@string/menu_profile" />
         <item
             android:id="@+id/consent_page"
             android:title="Consent"/>
         <item
             android:id="@+id/nav_notifications"
-            android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_notification"/>
     </group>
 

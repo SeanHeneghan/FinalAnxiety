@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.finalanxiety.MainActivity;
 import com.example.finalanxiety.R;
+import com.example.finalanxiety.database.CardsDatabase;
 import com.example.finalanxiety.motivation_messages.MotivationDatabase;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -52,6 +53,11 @@ public class ProfileFragment extends Fragment {
         profileViewModel =
                 ViewModelProviders.of(this).get(ProfileViewModel.class);
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
+        TextView conquer_text = root.findViewById(R.id.conquer);
+        TextView conquer_count = root.findViewById(R.id.conquer_count);
+        String anxious_counter = String.valueOf(MainActivity.myBundle.getInt("anxious_size"));
+        conquer_count.setText(anxious_counter);
+        TextView profile_text = root.findViewById(R.id.profile_text);
 
         //severity
         TextView severity_x = root.findViewById(R.id.severity_x);

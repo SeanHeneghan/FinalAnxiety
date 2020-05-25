@@ -118,6 +118,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void getCountInformation(List<TimelineCard> cards) {
+        if (cards != null) {
+            myBundle.putInt("anxious_size", cards.size());
+        }
+    }
+
     public void getContents(List<MotivationCard> stack) {
         ArrayList<String> contents = new ArrayList<>();
         if (stack != null) {
@@ -151,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 cardList(timelineCards);
                 getSeverityGraphInformation(timelineCards);
                 getLocationGraphInformation(timelineCards);
+                getCountInformation(timelineCards);
             }
         });
 

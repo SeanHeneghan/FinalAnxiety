@@ -19,9 +19,22 @@
     <string name="document_mood_severity">Severity:</string>
     <string name="severity_hint">0 - Low; 10 - High</string>
     <string name="document_mood_comments">Comments:</string>
-    <string name="comments_hint">Enter any thoughts, feelings or a description of your mood during this event.</string>
-    <string name="notification_intro">Enter your motivational messages below to see them on your page.</string>
-    <string name="consent_hint">To consent, type \"I consent to this\" in this text input.</string>
+    <string name="comments_hint">
+        Enter any thoughts, feelings or a description of your mood during this event.</string>
+    <string name="notification_intro">
+        Enter your motivational messages below to see them on your page.</string>
+    <string name="consent_hint">
+        To consent, type \"I consent to this\" in this text input.</string>
+    <string name="profile_text_info">
+        Below shows some logistics of your anxious moments, if some data appears more
+        prominent than others,try to think about how you might go about tackling this.</string>
+    <string name="consent_text">
+        This application is not a medical device. Taking part is voluntary and you can drop out
+        at any point using the button below with no consequences. Consenting gives permission for
+        the application to access your location and your input to be recorded. Consenting to the
+        use of this application also confirms you have signed a consent form and agree to all the
+        information documented.
+    </string>
 
     <string name="home_second">Home Second</string>
     <string name="consent" />
