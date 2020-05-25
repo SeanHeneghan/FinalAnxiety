@@ -3,7 +3,9 @@ package com.example.finalanxiety;
 import android.accessibilityservice.FingerprintGestureController;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -147,8 +149,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         permissionsToRequest = findUnAskedPermissions(permissions);
-        //get the permissions we have asked for before but are not granted..
-        //we will store this in a global list to access later.
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -163,12 +163,18 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_timeline, R.id.nav_document_mood, R.id.nav_notifications, R.id.nav_profile, R.id.create_motivation)
+                R.id.nav_timeline, R.id.nav_document_mood, R.id.nav_notifications, R.id.nav_profile, R.id.create_motivation, R.id.consent_page)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("AppPreferences", MODE_PRIVATE);
     }
 
     public static Bundle myBundle = new Bundle();
@@ -318,5 +324,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         trackLocation.stopListener();
+    }
+
+    public String getConsent() {
+        SharedPreferences preferences = this.getSharedPreferences("AppPreferences", MODE_PRIVATE);
+        String consent = preferences.getString("consent", null);
+        return consent;
     }
 }

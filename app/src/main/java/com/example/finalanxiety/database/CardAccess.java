@@ -19,7 +19,7 @@ public interface CardAccess {
     void deleteAll();
 
     @Insert
-    long insert(TimelineCard timelineCard);
+    void insert(TimelineCard timelineCard);
 
     @Update
     void update(TimelineCard timelineCard);

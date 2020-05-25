@@ -17,6 +17,9 @@
             android:icon="@drawable/ic_menu_share"
             android:title="@string/menu_profile" />
         <item
+            android:id="@+id/consent_page"
+            android:title="Consent"/>
+        <item
             android:id="@+id/nav_notifications"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_notification"/>

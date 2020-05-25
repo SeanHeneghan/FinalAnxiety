@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_document_mood">
+    app:startDestination="@+id/consent_page">
 
     <fragment
         android:id="@+id/nav_timeline"
@@ -35,4 +35,10 @@
         android:name="com.example.finalanxiety.ui.enter_motivation.EnterMotivationFragment"
         android:label="Enter Motivation"
         tools:layout="@layout/enter_notification"/>
+
+    <fragment
+        android:id="@+id/consent_page"
+        android:name="com.example.finalanxiety.ui.consent.ConsentFragment"
+        android:label="Consent"
+        tools:layout="@layout/consent"/>
 </navigation>

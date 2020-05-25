@@ -21,6 +21,8 @@
     <string name="document_mood_comments">Comments:</string>
     <string name="comments_hint">Enter any thoughts, feelings or a description of your mood during this event.</string>
     <string name="notification_intro">Enter your motivational messages below to see them on your page.</string>
+    <string name="consent_hint">To consent, type \"I consent to this\" in this text input.</string>
 
     <string name="home_second">Home Second</string>
+    <string name="consent" />
 </resources>
