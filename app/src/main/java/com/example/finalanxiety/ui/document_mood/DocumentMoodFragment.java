@@ -117,7 +117,7 @@ public class DocumentMoodFragment extends Fragment {
                     public void onClick(View view)
                     {
                         Date time_now = Calendar.getInstance().getTime();
-                        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                         String formatted_time = dateFormat.format(time_now);
                         System.out.println(formatted_time);
                         date_entry.setText(formatted_time);

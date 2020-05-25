@@ -15,7 +15,7 @@
     <string name="document_mood_date">Timestamp:</string>
     <string name="date_hint">DD/MM/YYYY - Hour/Min</string>
     <string name="document_mood_location">Location:</string>
-    <string name="location_hint">Event location</string>
+    <string name="location_hint">Location - Try to keep consistent</string>
     <string name="document_mood_severity">Severity:</string>
     <string name="severity_hint">0 - Low; 10 - High</string>
     <string name="document_mood_comments">Comments:</string>
