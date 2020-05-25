@@ -106,6 +106,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void getLocationGraphInformation(List<TimelineCard> cards) {
+        String location;
+        ArrayList<String> location_list = new ArrayList<>();
+        if (cards != null) {
+            for (TimelineCard card : cards) {
+                String card_location = card.getLocation();
+                location_list.add(card_location);
+                myBundle.putStringArrayList("location_list", location_list);
+            }
+        }
+    }
+
     public void getContents(List<MotivationCard> stack) {
         ArrayList<String> contents = new ArrayList<>();
         if (stack != null) {
@@ -138,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(List<TimelineCard> timelineCards) {
                 cardList(timelineCards);
                 getSeverityGraphInformation(timelineCards);
+                getLocationGraphInformation(timelineCards);
             }
         });
 
