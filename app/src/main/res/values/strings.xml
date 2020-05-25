@@ -13,7 +13,7 @@
     <string name="menu_profile">Profile</string>
 
     <string name="document_mood_date">Timestamp:</string>
-    <string name="date_hint">DD/MM/YYYY - Hour/Min</string>
+    <string name="date_hint">DD/MM/YYYY</string>
     <string name="document_mood_location">Location:</string>
     <string name="location_hint">Location - Try to keep consistent</string>
     <string name="document_mood_severity">Severity:</string>
