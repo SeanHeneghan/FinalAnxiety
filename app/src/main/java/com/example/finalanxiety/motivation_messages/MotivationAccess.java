@@ -19,6 +19,9 @@ public interface MotivationAccess {
     @Query("DELETE FROM motivation")
     void deleteAll();
 
+    @Query("DELETE FROM motivation WHERE contents LIKE :input")
+    void deleteWhere(String input);
+
     @Insert
     long insert(MotivationCard motivationCard);
 
