@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:text="ANXIOUS MOMENTS CONQUERED"
+            android:text="CURRENT ANXIETY BATTLE VICTORIES"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 

@@ -30,8 +30,8 @@ public class TrackLocation extends Service implements LocationListener {
     double latitude;
     double longitude;
 
-    private static final long MIN_DISTANCE_FOR_CHANGE_FOR_UPDATES = 10;
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;
+    private static final long MIN_DISTANCE = 10;
+    private static final long MIN_TIME = 60000;
     protected LocationManager locationManager;
 
     public TrackLocation(Context context) {
@@ -56,8 +56,8 @@ public class TrackLocation extends Service implements LocationListener {
                     }
                     locationManager.requestLocationUpdates(
                             LocationManager.GPS_PROVIDER,
-                            MIN_TIME_BW_UPDATES,
-                            MIN_DISTANCE_FOR_CHANGE_FOR_UPDATES, this);
+                            MIN_TIME,
+                            MIN_DISTANCE, this);
                     if (locationManager != null) {
                         latlon = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                         if (latlon != null) {
@@ -74,8 +74,8 @@ public class TrackLocation extends Service implements LocationListener {
                     }
                     locationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER,
-                            MIN_TIME_BW_UPDATES,
-                            MIN_DISTANCE_FOR_CHANGE_FOR_UPDATES, this);
+                            MIN_TIME,
+                            MIN_DISTANCE, this);
                     if (locationManager != null) {
                         latlon = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                         if (latlon != null) {
